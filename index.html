@@ -784,7 +784,7 @@ async function saveFile(again){
   if (again && lastFile) ({ data, name } = lastFile);
   else {
     exporting = true; toast('Excelを作成しています…');
-    try { data = (view === 'aday' || view === 'amon') ? await buildAll() : await buildFull(); }
+    try { data = await buildFull(); }
     catch(e) { exporting = false; toast('Excelを作成できませんでした'); return 'none'; }
     exporting = false;
     name = view === 'aday' ? `当日全店_${date.replace(/-/g, '')}.xlsx` : view === 'amon' ? `当月全店_${month.replace('-', '')}.xlsx` : isDayV() ? fileName() : `個人別月間_${storeName()}_${month.replace('-', '')}.xlsx`.replace(/[\\/:*?"<>|]/g, '_');
@@ -1188,6 +1188,9 @@ async function buildFull(){
   const sheets = [], files = [], types = [];
   let dsh = null;
   if (isDayV()) { dsh = daySheets(); sheets.push({ name: '件数表', xml: dsh.s1 }, { name: '当日実績', xml: dsh.s4 }); }
+  const aDay = (view === 'aday' && allData && allData.kind === 'aday' && allData.ds === date) ? allData : await computeAll('aday', date, ym);
+  const aMon = (view === 'amon' && allData && allData.kind === 'amon' && allData.ym === ym) ? allData : await computeAll('amon', date, ym, (d, t) => { if (d % 40 === 0) toast(`Excelを作成しています…（全店 ${d} / ${t}日分）`); });
+  sheets.push({ name: '当日全店', xml: allSheet(aDay) }, { name: '当月全店', xml: allSheet(aMon) });
   sheets.push(...monthSheets(cur));
   const staffNames = monthCalc(cur).names, used = new Set(sheets.map(x => x.name).concat(['スタッフマスタ', '店舗マスタ']));
   const M = { box: 1, sum: 9, lab: 10, title: 6, pct: 14, dec: 15, memo: 16, sec: 17, decB: 18 };
@@ -1243,17 +1246,11 @@ async function buildFull(){
   return book2(sheets, files, types);
 }
 window.__buildFull = () => buildFull();
-async function buildAll(){
-  if (!allData || allData.kind !== view) await loadAll();
-  const [y, m, d] = (allData.kind === 'aday' ? allData.ds : allData.ym + '-01').split('-').map(Number);
-  const xml = paperSheetGen({ topLabel: '全店', topText: allData.kind === 'aday' ? `${y}年${m}月${d}日　当日全店` : `${y}年${m}月　当月全店`, m, d: allData.kind === 'aday' ? d : 0, nameLabel: '店舗名', ptLabel: '店舗別\nポイント', list: allData.list, minRows: cfg.stores.length });
-  return book2([{ name: allData.kind === 'aday' ? '当日全店' : '当月全店', xml }, { name: '店舗マスタ', xml: daySheets().s3 }], [], []);
-}
-window.__buildAll = () => buildAll();
+window.__buildAll = () => buildFull();
 
 /* ---------- 当日実績（紙の件数表の形で表示） ---------- */
 function vtSize(n){ const L = String(n || '').replace(/\n/g, '').length; return L <= 15 ? 10.5 : Math.max(7.6, Math.floor(164 / L * 10) / 10); }
-function isDayV(){ return view === 'day' || view === 'today'; }
+function isDayV(){ return view === 'day' || view === 'today' || view === 'aday'; }
 const GFILL = Object.fromEntries(GKEYS.map((k, i) => ['' + k, '#' + GHEX[i]]));
 const YITEM = ['アゲキュン', 'アマゾン新プラン同時', 'PI紹介訴求', 'スマホ教室ポイ活講座'];
 const isY = n => YITEM.includes(String(n || '').replace(/[\s\u3000]/g, ''));
@@ -1319,10 +1316,7 @@ function renderToday(){
 /* 当日全店・当月全店 */
 let allData = null, allTok = 0;
 const addC = (to, c) => { for (const id in (c || {})) { const v = +c[id] || 0; if (v) to[id] = (to[id] || 0) + v; } };
-async function loadAll(){
-  const tok = ++allTok, kind = view, ym = month, ds = date;
-  if (kind === 'amon') monthLabel();
-  allData = null; renderAll('');
+async function computeAll(kind, ds, ym, onProg, alive = () => true){
   const out = cfg.stores.map(s => ({ name: s.name, c: {} }));
   let fail = 0;
   if (kind === 'aday') {
@@ -1332,16 +1326,26 @@ async function loadAll(){
   } else {
     const [y, m] = ym.split('-').map(Number), total = cfg.stores.length * new Date(y, m, 0).getDate(); let done = 0;
     for (let i = 0; i < cfg.stores.length; i++) {
-      const s = cfg.stores[i], key = s.id + '|' + ym, c = mcache[key];
-      const md = await getMonthFor(s.id, ym, !(c && Date.now() - c.at < 60000), () => { done++; if (tok === allTok) renderAll(`読み込み中…（${Math.min(done, total)} / ${total}日分）`); });
-      if (tok !== allTok) return;
+      const s = cfg.stores[i], c = mcache[s.id + '|' + ym];
+      const md = await getMonthFor(s.id, ym, !(c && Date.now() - c.at < 60000), () => { done++; if (onProg) onProg(Math.min(done, total), total); });
+      if (!alive()) return null;
       md.days.forEach(list => (list || []).forEach(r => addC(out[i].c, r.c)));
       fail += md.fail;
     }
   }
-  if (tok !== allTok) return;
-  allData = { kind, ym, ds, list: out, fail };
-  renderAll();
+  return { kind, ym, ds, list: out, fail };
+}
+async function loadAll(){
+  const tok = ++allTok, kind = view;
+  if (kind === 'amon') monthLabel();
+  allData = null; renderAll('');
+  const r = await computeAll(kind, date, month, (d, t) => { if (tok === allTok) renderAll(`読み込み中…（${d} / ${t}日分）`); }, () => tok === allTok);
+  if (!r || tok !== allTok) return;
+  allData = r; renderAll();
+}
+function allSheet(a){
+  const [y, m, d] = (a.kind === 'aday' ? a.ds : a.ym + '-01').split('-').map(Number);
+  return paperSheetGen({ topLabel: '全店', topText: a.kind === 'aday' ? `${y}年${m}月${d}日　当日全店` : `${y}年${m}月　当月全店`, m, d: a.kind === 'aday' ? d : 0, nameLabel: '店舗名', ptLabel: '店舗別\nポイント', list: a.list, minRows: cfg.stores.length });
 }
 function renderAll(msg){
   const w = $('#xwrap'); if (!w || (view !== 'aday' && view !== 'amon')) return;
