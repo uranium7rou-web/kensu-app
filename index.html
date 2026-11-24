@@ -53,14 +53,14 @@ thead .fx{z-index:5}
 tfoot td{position:sticky;bottom:0;z-index:2;background:var(--head);border-top:2px solid var(--ink);font-weight:900}
 tfoot .fx{z-index:5}
 .c0{left:0;width:44px;min-width:44px;text-align:center;color:var(--mute);font-size:13px}
-.c1{left:44px;width:160px;min-width:160px}
-.c2{left:204px;width:76px;min-width:76px;text-align:center}
-.c3{left:280px;width:76px;min-width:76px;text-align:center;border-right:2px solid var(--ink)}
+.c1{left:44px;width:112px;min-width:112px;max-width:112px}
+.c2{left:156px;width:61px;min-width:61px;max-width:61px;text-align:center}
+.c3{left:217px;width:61px;min-width:61px;max-width:61px;text-align:center;border-right:2px solid var(--ink)}
 .lab{font-size:12px;color:var(--mute);padding:4px;text-align:center;line-height:1.3}
 .grp{font-size:14px;text-align:center;padding:6px 4px;white-space:nowrap;border-bottom:1px solid var(--line2)}
 .nt{font-size:11px;text-align:center;padding:3px;background:var(--note);color:var(--noteInk);line-height:1.25}
 .nm{width:112px;min-width:112px;max-width:112px;vertical-align:top}
-.nm button{display:block;width:100%;min-height:96px;border:0;background:transparent;padding:6px 6px;font-size:12.5px;line-height:1.3;font-weight:700;text-align:left;white-space:pre-line;overflow-wrap:anywhere}
+.nm button{display:block;width:100%;min-height:96px;border:0;background:transparent;padding:6px 6px;font-size:12.5px;line-height:1.3;font-weight:700;text-align:center;white-space:pre-line;overflow-wrap:anywhere}
 .nm button:hover{background:var(--tintB)}
 .nm small{display:block;font-weight:400;color:var(--mute);font-size:11px}
 .pt input{width:100%;min-height:40px;border:0;border-radius:0;background:transparent;text-align:center;font-weight:700;font-size:17px;padding:2px;-moz-appearance:textfield}
@@ -82,7 +82,7 @@ td.on{background:var(--penbg)}
 td.flash .cell b{animation:pop .35s ease}
 @keyframes pop{40%{transform:scale(1.45)}}
 @media (prefers-reduced-motion:reduce){td.flash .cell b{animation:none}}
-.staff select{width:100%;border:0;border-radius:0;min-height:57px;font-weight:700;font-size:16px;background:transparent;padding:0 8px}
+.staff select{width:100%;border:0;border-radius:0;min-height:57px;font-weight:700;font-size:16px;background:transparent;padding:0 2px 0 6px;text-overflow:ellipsis}
 .pts{font-size:18px;font-weight:900}
 .pts.k{color:var(--pen)}
 tfoot td{height:46px;text-align:center;font-size:18px}
@@ -109,7 +109,9 @@ tfoot td{height:46px;text-align:center;font-size:18px}
 .seg button+button{border-left:1px solid var(--line2)}
 .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 body:not([data-v=day]) .donly{display:none!important}
-body[data-v=day] .monly{display:none!important}
+body:not([data-v=day]):not([data-v=today]):not([data-v=aday]) .dtonly{display:none!important}
+body[data-v=day] .monly,body[data-v=today] .monly,body[data-v=aday] .monly{display:none!important}
+body[data-v=amon] .mkonly,body[data-v=aday] .sfld,body[data-v=amon] .sfld{display:none!important}
 .mlab{font-size:18px;font-weight:900;min-width:6.5em;text-align:center;font-variant-numeric:tabular-nums}
 .mw{display:flex;flex-direction:column;overflow:hidden}.mw[hidden]{display:none}
 .mscroll{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-top:1px solid var(--line)}
@@ -122,7 +124,7 @@ body[data-v=day] .monly{display:none!important}
 #mtbl thead th{top:0;height:48px;font-size:13px}
 #mtbl td{height:44px;text-align:right;padding:0 8px;font-size:15px;font-variant-numeric:tabular-nums}
 #mtbl .c1{text-align:left;padding-left:10px;font-weight:700;font-size:16px}
-#mtbl .mt{left:204px;width:100px;min-width:100px;border-right:2px solid var(--ink);font-weight:900;font-size:18px;color:var(--pen)}
+#mtbl .mt{left:156px;width:100px;min-width:100px;border-right:2px solid var(--ink);font-weight:900;font-size:18px;color:var(--pen)}
 #mtbl th.mt{color:var(--ink)}
 #mtbl th.d{width:52px;min-width:52px;padding:0}
 #mtbl th.d button{width:100%;min-height:48px;border:0;background:transparent;font-weight:700;font-size:13px;line-height:1.15}
@@ -173,32 +175,58 @@ body[data-v=day] .monly{display:none!important}
 .empty{padding:30px 0;color:var(--mute)}
 @media(max-width:1000px){.agrid{grid-template-columns:minmax(0,1fr)}.fig{max-width:460px;margin:0 auto;width:100%}}
 @media(max-width:700px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{border-bottom:1px solid var(--line)}}
+#twrap,#xwrap{padding:0 0 18px}
+.tcap{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline;padding:10px 12px 8px;position:sticky;left:0;max-width:100vw}
+.tcap h2{margin:0;font-size:20px;font-weight:900}
+.tcap span{font-size:13px;color:var(--mute);white-space:nowrap}.tcap b{color:var(--ink);font-size:17px;margin-left:3px}
+.ttbl{width:100%;min-width:1100px;table-layout:fixed;border-collapse:separate;border-spacing:0;border-top:1px solid var(--line2);border-left:1px solid var(--line2);font-variant-numeric:tabular-nums}
+.ttbl th,.ttbl td{position:static;border:0;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);padding:0;text-align:center;font-size:11px;line-height:1.2;background:var(--paper);overflow:hidden;color:var(--ink)}
+.ttbl thead th{font-weight:700}
+.ttbl .vt{writing-mode:vertical-rl;height:168px;margin:0 auto;padding:4px 0;font-size:10.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-align:start}
+.ttbl .vt.lb{height:auto;font-size:11px;margin:0 auto}
+.ttbl .tsep{background:var(--line2)!important;border-color:var(--line2)}
+.ttbl td.n{height:21px;font-size:13px;font-weight:900;color:var(--pen)}
+.ttbl td.on{background:var(--penbg)}
+.ttbl .nm{text-align:left;padding-left:4px;font-size:12px;font-weight:700;white-space:nowrap;text-overflow:ellipsis}
+.ttbl .ylw{background:#ffff00!important;color:#000!important}
+.ttbl .grp{font-size:11.5px;padding:3px 0;white-space:nowrap;text-overflow:ellipsis}
+.ttbl .nt{font-size:9.5px;padding:2px 0;line-height:1.15;white-space:normal}
+.ttbl .ptv{font-size:11px;height:22px}
+.ttbl .tp{font-weight:900;font-size:12px}
+.ttbl.sm td.n,.ttbl.sm tfoot td{font-size:10.5px;letter-spacing:-.03em}
+.ttbl .fz4{box-shadow:inset -2px 0 0 var(--ink)}
+.ttbl tfoot td{font-weight:900;font-size:12px;height:26px;background:var(--head)}
+.vtabs{flex:0 1 auto;max-width:100%;overflow-x:auto}
+.vtabs button{min-height:38px;font-size:14.5px;padding:0 15px}
+.brk{flex-basis:100%;height:0}
 .toast{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:15px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60;max-width:90vw}
 .toast.show{opacity:1}
 @media(max-width:1300px){.bar h1{display:none}.sum{display:none}}
 body:not([data-v=day]) #stat{display:none}
-@media(max-width:1200px){.store{min-width:0;max-width:200px}#today,#mthis,.fld label[for=store],#stat{display:none}.bar{gap:8px}.btn{padding:0 11px}}
+@media(max-width:1200px){.store{min-width:0;max-width:200px}#today,#mthis,.fld label[for=store],#stat,.ul{display:none}.seg button{padding:0 11px}.bar{gap:8px}.btn{padding:0 11px}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="bar">
-    <h1>件数表</h1>
-    <div class="seg" role="group" aria-label="画面の切り替え"><button data-view="day" aria-pressed="true">日別入力</button><button data-view="month" aria-pressed="false">月間</button><button data-view="an" aria-pressed="false">個人分析</button></div>
-    <div class="fld"><label for="store">店舗名</label><select id="store" class="store"></select></div>
-    <div class="fld donly"><button class="btn" id="prev" aria-label="前の日">‹</button><input type="date" id="date" aria-label="日付"><button class="btn" id="next" aria-label="次の日">›</button><button class="btn" id="today">今日</button></div>
+    <div class="seg vtabs" role="group" aria-label="画面の切り替え"><button data-view="day" aria-pressed="true">日別入力</button><button data-view="today" aria-pressed="false">当日実績</button><button data-view="aday" aria-pressed="false">当日全店</button><button data-view="amon" aria-pressed="false">当月全店</button><button data-view="month" aria-pressed="false">月間</button><button data-view="an" aria-pressed="false">個人分析</button></div>
+    <span class="brk"></span>
+    <div class="fld sfld"><label for="store">店舗名</label><select id="store" class="store"></select></div>
+    <div class="fld dtonly"><button class="btn" id="prev" aria-label="前の日">‹</button><input type="date" id="date" aria-label="日付"><button class="btn" id="next" aria-label="次の日">›</button><button class="btn" id="today">今日</button></div>
     <div class="fld monly"><button class="btn" id="mprev" aria-label="前の月">‹</button><span class="mlab" id="mlabel"></span><button class="btn" id="mnext" aria-label="次の月">›</button><button class="btn" id="mthis">今月</button></div>
-    <div class="seg monly" role="group" aria-label="表示するポイント"><button data-mk="cx" aria-pressed="true">CX</button><button data-mk="kos" aria-pressed="false">KOS</button></div>
+    <div class="seg monly mkonly" role="group" aria-label="表示するポイント"><button data-mk="cx" aria-pressed="true">CX</button><button data-mk="kos" aria-pressed="false">KOS</button></div>
     <div class="sum donly">店舗合計<span>件数<b id="sCnt">0</b></span><span>CX<b id="sCx">0</b></span><span>KOS<b id="sKos">0</b></span></div>
     <span class="sp"></span>
     <span class="stat" id="stat">読み込み中…</span>
-    <button class="btn donly" id="undo" disabled>↶ 取り消し</button>
+    <button class="btn donly" id="undo" disabled>↶<span class="ul"> 取り消し</span></button>
     <button class="btn" id="set">設定</button>
     <button class="btn pri xonly" id="xl">Excel出力</button>
     <button class="btn red xonly" id="mail">メールで送る</button>
   </div>
   <div class="wrap" id="wrap"><table id="tbl"></table></div>
   <div class="wrap" id="awrap" hidden></div>
+  <div class="wrap" id="twrap" hidden></div>
+  <div class="wrap" id="xwrap" hidden></div>
   <div class="wrap mw" id="mwrap" hidden>
     <div class="mcap"><h2 id="mtitle"></h2><div class="mtot" id="mtot"></div><p class="hint" id="mnote">ポイントは、いま設定されているKOS・CXポイントで計算しています。日付の行と名前の列は固定され、表だけがスクロールします。日付をタップすると、その日の入力画面に移ります。</p></div>
     <div class="mscroll" id="mscroll"><table id="mtbl"></table></div>
@@ -247,7 +275,9 @@ window.addEventListener('error', e => { try { const d = document.createElement('
 </script>
 <script>
 {
-const DEF = {"stores": [{"id": 1, "name": "天理"}, {"id": 2, "name": "西大寺"}, {"id": 3, "name": "高田"}, {"id": 4, "name": "イオンモール高の原"}, {"id": 5, "name": "桃谷"}, {"id": 6, "name": "桜井"}, {"id": 7, "name": "葛城南"}, {"id": 8, "name": "北野白梅町"}], "staff": [], "items": [{"id": "i01", "name": "PIKAPRO-2", "group": "副商材", "note": "", "kos": 10, "cx": 0}, {"id": "i02", "name": "広告ブロック・セキュリティ\n（1台版）-2", "group": "副商材", "note": "", "kos": 15, "cx": 0}, {"id": "i03", "name": "広告ブロック・セキュリティ\n（3台版）-2", "group": "副商材", "note": "", "kos": 20, "cx": 0}, {"id": "i04", "name": "HOZON-2", "group": "副商材", "note": "", "kos": 10, "cx": 0}, {"id": "i05", "name": "ケイタイサポートM-3", "group": "副商材", "note": "", "kos": 40, "cx": 0}, {"id": "i06", "name": "ケイタイサポート\nL/Plus-3", "group": "副商材", "note": "", "kos": 60, "cx": 0}, {"id": "i07", "name": "新あんしんセキュリティ\n（S）-2", "group": "副商材", "note": "", "kos": 15, "cx": 0}, {"id": "i08", "name": "新あんしんセキュリティ\n（S詐欺）（T）-2", "group": "副商材", "note": "", "kos": 20, "cx": 0}, {"id": "i09", "name": "Photoキューブ-2", "group": "副商材", "note": "", "kos": 35, "cx": 0}, {"id": "i10", "sp": 1}, {"id": "i11", "sp": 1}, {"id": "i12", "name": "ｄバリューパスパック", "group": "スマートライフ", "note": "アゲキュン対象", "kos": 16, "cx": 16}, {"id": "i13", "name": "ｄバリューパス", "group": "スマートライフ", "note": "アゲキュン対象", "kos": 11, "cx": 11}, {"id": "i14", "name": "Lemino", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 20, "cx": 20}, {"id": "i15", "name": "Disney＋", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 11, "cx": 11}, {"id": "i16", "name": "YTP/Spotify/ネトフリ/Google one", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 7, "cx": 7}, {"id": "i17", "name": "他スマライ", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 4, "cx": 4}, {"id": "i18", "name": "アゲキュン", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 0, "cx": 0, "noxl": 1}, {"id": "i19", "name": "アマゾンプライム（新規）", "group": "Amazon", "note": "", "kos": 13, "cx": 13}, {"id": "i20", "name": "アマゾンプライム（既存）", "group": "Amazon", "note": "", "kos": 7, "cx": 7}, {"id": "i21", "name": "アマゾンID連携", "group": "Amazon", "note": "", "kos": 6, "cx": 6}, {"id": "i22", "name": "アマゾン新プラン同時", "group": "Amazon", "note": "", "kos": 0, "cx": 0, "noxl": 1}, {"id": "i23", "name": "ドコモMAX", "group": "新料金", "note": "選べる特典 セットで", "kos": 17, "cx": 17}, {"id": "i24", "name": "ドコモポイ活MAX", "group": "新料金", "note": "選べる特典 セットで", "kos": 37, "cx": 37}, {"id": "i63", "sp": 1}, {"id": "i64", "sp": 1}, {"id": "i25", "name": "下取り（指定）", "group": "下取り", "note": "", "kos": 24, "cx": 24}, {"id": "i26", "name": "下取り（指定外）", "group": "下取り", "note": "", "kos": 6, "cx": 6}, {"id": "i27", "name": "Pixel機種販売", "group": "機種", "note": "", "kos": 40, "cx": 0}, {"id": "i28", "name": "Galaxy機種販売\n（高額インセ対象）", "group": "機種", "note": "", "kos": 40, "cx": 0}, {"id": "i29", "name": "アンドロイドハイエンド化", "group": "機種", "note": "", "kos": 28, "cx": 0}, {"id": "i30", "name": "iPhoneハイエンド化", "group": "機種", "note": "", "kos": 15, "cx": 0}, {"id": "i31", "name": "プラスワン\n(1年11カ月未満）", "group": "プラワン", "note": "", "kos": 25, "cx": 0}, {"id": "i32", "name": "プラスワン\n（1年11カ月以上）", "group": "プラワン", "note": "", "kos": 20, "cx": 0}, {"id": "i34", "name": "PI-2", "group": "ポートイン", "note": "", "kos": 60, "cx": 0}, {"id": "i36", "name": "紹介訴求PI-2", "group": "ポートイン", "note": "", "kos": 120, "cx": 0}, {"id": "i37", "sp": 1}, {"id": "i38", "sp": 1}, {"id": "i39", "name": "光　（１GB新規）", "group": "光", "note": "", "kos": 42, "cx": 42}, {"id": "i40", "name": "光（10GB新規）", "group": "光", "note": "", "kos": 60, "cx": 60}, {"id": "i41", "name": "でんき（GREEN)", "group": "でんき", "note": "", "kos": 43, "cx": 43}, {"id": "i42", "name": "でんき（BASIC)", "group": "でんき", "note": "", "kos": 34, "cx": 34}, {"id": "i43", "name": "ドコモガス", "group": "ガス", "note": "", "kos": 5, "cx": 5}, {"id": "i44", "name": "home5G", "group": "５G", "note": "", "kos": 60, "cx": 60}, {"id": "i45", "sp": 1}, {"id": "i46", "sp": 1}, {"id": "i47", "name": "ｄカード（R）", "group": "カード", "note": "", "kos": 19, "cx": 19}, {"id": "i48", "name": "ｄカード（GO）", "group": "カード", "note": "", "kos": 46, "cx": 46}, {"id": "i49", "name": "ｄカード（プ）", "group": "カード", "note": "", "kos": 74, "cx": 74}, {"id": "i50", "name": "ｄカード（Ｕ）", "group": "カード", "note": "", "kos": 26, "cx": 26}, {"id": "i51", "name": "ｄ払い（初回利用）", "group": "アクティブ", "note": "", "kos": 17, "cx": 17}, {"id": "i52", "name": "ｄ払い裏ｄカード設定", "group": "アクティブ", "note": "", "kos": 10, "cx": 10}, {"id": "i53", "name": "ドコモの銀行", "group": "アクティブ", "note": "", "kos": 26, "cx": 26}, {"id": "i54", "sp": 1}, {"id": "i55", "sp": 1}, {"id": "i56", "name": "マイショップ", "group": "基本動作", "note": "", "kos": 3, "cx": 0}, {"id": "i57", "name": "ショップアプリ", "group": "基本動作", "note": "", "kos": 5, "cx": 0}, {"id": "i58", "name": "LINE", "group": "基本動作", "note": "", "kos": 3, "cx": 0}, {"id": "i59", "name": "カエドキ訴求\n（１８カ月以内）", "group": "基本動作", "note": "", "kos": 2, "cx": 0}, {"id": "i61", "name": "PI紹介訴求", "group": "基本動作", "note": "", "kos": 5, "cx": 0}, {"id": "i62", "name": "スマホ教室ポイ活講座", "group": "基本動作", "note": "", "kos": 20, "cx": 0}], "email": "", "next": 65, "mig": 6};
+const DEF = {"stores": [{"id": 1, "name": "天理"}, {"id": 2, "name": "西大寺"}, {"id": 3, "name": "高田"}, {"id": 4, "name": "イオンモール高の原"}, {"id": 5, "name": "桃谷"}, {"id": 6, "name": "桜井"}, {"id": 7, "name": "葛城南"}, {"id": 8, "name": "北野白梅町"}], "staff": [], "items": [{"id": "i01", "name": "PIKAPRO-2", "group": "副商材", "note": "", "kos": 10, "cx": 0}, {"id": "i02", "name": "広告ブロック・セキュリティ\n（1台版）-2", "group": "副商材", "note": "", "kos": 15, "cx": 0}, {"id": "i03", "name": "広告ブロック・セキュリティ\n（3台版）-2", "group": "副商材", "note": "", "kos": 20, "cx": 0}, {"id": "i04", "name": "HOZON-2", "group": "副商材", "note": "", "kos": 10, "cx": 0}, {"id": "i05", "name": "ケイタイ\nサポートM-3", "group": "副商材", "note": "", "kos": 40, "cx": 0}, {"id": "i06", "name": "ケイタイ\nサポート\nL/Plus-3", "group": "副商材", "note": "", "kos": 60, "cx": 0}, {"id": "i07", "name": "新あんしん\nセキュリティ\n（S）-2", "group": "副商材", "note": "", "kos": 15, "cx": 0}, {"id": "i08", "name": "新あんしん\nセキュリティ\n（S詐欺）（T）-2", "group": "副商材", "note": "", "kos": 20, "cx": 0}, {"id": "i09", "name": "Photoキューブ-2", "group": "副商材", "note": "", "kos": 35, "cx": 0}, {"id": "i10", "sp": 1}, {"id": "i11", "sp": 1}, {"id": "i12", "name": "ｄバリューパスパック", "group": "スマートライフ", "note": "アゲキュン対象", "kos": 16, "cx": 16}, {"id": "i13", "name": "ｄバリューパス", "group": "スマートライフ", "note": "アゲキュン対象", "kos": 11, "cx": 11}, {"id": "i14", "name": "Lemino", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 20, "cx": 20}, {"id": "i15", "name": "Disney＋", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 11, "cx": 11}, {"id": "i16", "name": "YTP/Spotify/ネトフリ/Google one", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 7, "cx": 7}, {"id": "i17", "name": "他スマライ", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 4, "cx": 4}, {"id": "i18", "name": "アゲキュン", "group": "スマートライフ", "note": "ネトフリ・Lemino Disney+・youtube", "kos": 0, "cx": 0, "noxl": 1}, {"id": "i19", "name": "アマゾン\nプライム\n（新規）", "group": "Amazon", "note": "", "kos": 13, "cx": 13}, {"id": "i20", "name": "アマゾン\nプライム\n（既存）", "group": "Amazon", "note": "", "kos": 7, "cx": 7}, {"id": "i21", "name": "アマゾンID連携", "group": "Amazon", "note": "", "kos": 6, "cx": 6}, {"id": "i22", "name": "アマゾン\n新プラン同時", "group": "Amazon", "note": "", "kos": 0, "cx": 0, "noxl": 1}, {"id": "i23", "name": "ドコモMAX", "group": "新料金", "note": "選べる特典 セットで", "kos": 17, "cx": 17}, {"id": "i24", "name": "ドコモ\nポイ活MAX", "group": "新料金", "note": "選べる特典 セットで", "kos": 37, "cx": 37}, {"id": "i63", "sp": 1}, {"id": "i64", "sp": 1}, {"id": "i25", "name": "下取り\n（指定）", "group": "下取り", "note": "", "kos": 24, "cx": 24}, {"id": "i26", "name": "下取り\n（指定外）", "group": "下取り", "note": "", "kos": 6, "cx": 6}, {"id": "i27", "name": "Pixel機種販売", "group": "機種", "note": "", "kos": 40, "cx": 0}, {"id": "i28", "name": "Galaxy機種販売\n（高額インセ対象）", "group": "機種", "note": "", "kos": 40, "cx": 0}, {"id": "i29", "name": "アンドロイド\nハイエンド化", "group": "機種", "note": "", "kos": 28, "cx": 0}, {"id": "i30", "name": "iPhone\nハイエンド化", "group": "機種", "note": "", "kos": 15, "cx": 0}, {"id": "i31", "name": "プラスワン\n(1年11カ月未満）", "group": "プラワン", "note": "", "kos": 25, "cx": 0}, {"id": "i32", "name": "プラスワン\n（1年11カ月以上）", "group": "プラワン", "note": "", "kos": 20, "cx": 0}, {"id": "i34", "name": "PI-2", "group": "ポートイン", "note": "", "kos": 60, "cx": 0}, {"id": "i36", "name": "紹介訴求PI-2", "group": "ポートイン", "note": "", "kos": 120, "cx": 0}, {"id": "i37", "sp": 1}, {"id": "i38", "sp": 1}, {"id": "i39", "name": "光\n（１GB新規）", "group": "光", "note": "", "kos": 42, "cx": 42}, {"id": "i40", "name": "光\n（10GB新規）", "group": "光", "note": "", "kos": 60, "cx": 60}, {"id": "i41", "name": "でんき（GREEN)", "group": "でんき", "note": "", "kos": 43, "cx": 43}, {"id": "i42", "name": "でんき（BASIC)", "group": "でんき", "note": "", "kos": 34, "cx": 34}, {"id": "i43", "name": "ドコモガス", "group": "ガス", "note": "", "kos": 5, "cx": 5}, {"id": "i44", "name": "home5G", "group": "５G", "note": "", "kos": 60, "cx": 60}, {"id": "i45", "sp": 1}, {"id": "i46", "sp": 1}, {"id": "i47", "name": "ｄカード（R）", "group": "カード", "note": "", "kos": 19, "cx": 19}, {"id": "i48", "name": "ｄカード（GO）", "group": "カード", "note": "", "kos": 46, "cx": 46}, {"id": "i49", "name": "ｄカード（プ）", "group": "カード", "note": "", "kos": 74, "cx": 74}, {"id": "i50", "name": "ｄカード（Ｕ）", "group": "カード", "note": "", "kos": 26, "cx": 26}, {"id": "i51", "name": "ｄ払い\n（初回利用）", "group": "アクティブ", "note": "", "kos": 17, "cx": 17}, {"id": "i52", "name": "ｄ払い\n裏ｄカード設定", "group": "アクティブ", "note": "", "kos": 10, "cx": 10}, {"id": "i53", "name": "ドコモの銀行", "group": "アクティブ", "note": "", "kos": 26, "cx": 26}, {"id": "i54", "sp": 1}, {"id": "i55", "sp": 1}, {"id": "i56", "name": "マイショップ", "group": "基本動作", "note": "", "kos": 3, "cx": 0}, {"id": "i57", "name": "ショップアプリ", "group": "基本動作", "note": "", "kos": 5, "cx": 0}, {"id": "i58", "name": "LINE", "group": "基本動作", "note": "", "kos": 3, "cx": 0}, {"id": "i59", "name": "カエドキ訴求\n（１８カ月以内）", "group": "基本動作", "note": "", "kos": 2, "cx": 0}, {"id": "i61", "name": "PI紹介訴求", "group": "基本動作", "note": "", "kos": 5, "cx": 0}, {"id": "i62", "name": "スマホ教室\nポイ活講座", "group": "基本動作", "note": "", "kos": 20, "cx": 0}], "email": "", "next": 65, "mig": 7};
+const GKEYS = ["副商材", "スマートライフ", "Amazon", "新料金", "下取り", "機種", "プラワン", "ポートイン", "光", "でんき", "ガス", "５G", "カード", "アクティブ", "基本動作"], GHEX = ["F8CBAD", "C6E0B4", "FFE699", "FFFF00", "E4DFEC", "9DC3E6", "F4B084", "FF0000", "CCFFFF", "FFC000", "FF99CC", "A9D08E", "BDD7EE", "D9B3FF", "D0CECE"];
+const gStyle = g => { const i = GKEYS.indexOf(String(g || '').trim()); return i < 0 ? '' : ` style="background:#${GHEX[i]}!important;color:${GHEX[i] === 'FF0000' ? '#fff' : '#000'}"`; };
 const ROWS = 16;
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -295,6 +325,11 @@ function normCfg(c){
     o.items.forEach(it => { if ((it.name || '').trim() === 'ドコモの銀行' && !num(it.cx)) it.cx = 26; });
     o.mig = 6;
   }
+  if (o.mig < 7) {
+    const REN = {"ケイタイサポートM-3": "ケイタイ\nサポートM-3", "ケイタイサポートL/Plus-3": "ケイタイ\nサポート\nL/Plus-3", "新あんしんセキュリティ（S）-2": "新あんしん\nセキュリティ\n（S）-2", "新あんしんセキュリティ（S詐欺）（T）-2": "新あんしん\nセキュリティ\n（S詐欺）（T）-2", "アマゾンプライム（新規）": "アマゾン\nプライム\n（新規）", "アマゾンプライム（既存）": "アマゾン\nプライム\n（既存）", "アマゾン新プラン同時": "アマゾン\n新プラン同時", "ドコモポイ活MAX": "ドコモ\nポイ活MAX", "下取り（指定）": "下取り\n（指定）", "下取り（指定外）": "下取り\n（指定外）", "アンドロイドハイエンド化": "アンドロイド\nハイエンド化", "iPhoneハイエンド化": "iPhone\nハイエンド化", "光（１GB新規）": "光\n（１GB新規）", "光（10GB新規）": "光\n（10GB新規）", "ｄ払い（初回利用）": "ｄ払い\n（初回利用）", "ｄ払い裏ｄカード設定": "ｄ払い\n裏ｄカード設定", "スマホ教室ポイ活講座": "スマホ教室\nポイ活講座"};
+    o.items.forEach(it => { const k = String(it.name || '').replace(/[\s\u3000]/g, ''); if (REN[k]) it.name = REN[k]; });
+    o.mig = 7;
+  }
   return o;
 }
 function today(){ const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -337,6 +372,7 @@ function loadDay(){
     if (saved && Array.isArray(saved)) saved.forEach((r, i) => { if (i < ROWS && r) rows[i] = { staff: r.staff || '', c: r.c || {} }; });
   }
   render();
+  if (typeof view !== 'undefined' && view === 'aday') loadAll();
 }
 function saveRow(i){
   pending[i] = true;
@@ -407,7 +443,7 @@ function render(){
   if (hasNote) h += `<tr><th class="fx c0" rowspan="1"></th><th class="fx c1"></th><th class="fx c2"></th><th class="fx c3"></th>` +
      nr.map(r => r.sp ? sepTh : `<th colspan="${r.n}" class="${r.v ? 'nt' : ''}">${esc(r.v)}</th>`).join('') + '<th class="add"></th></tr>';
   h += `<tr><th class="fx c0"></th><th class="fx c1 lab"></th><th class="fx c2 lab" colspan="1"></th><th class="fx c3 lab"></th>` +
-     gr.map(g => g.sp ? sepTh : `<th colspan="${g.n}" class="grp ${tint[g.idx]||''}">${esc(g.v)}</th>`).join('') + '<th class="add" rowspan="4"><button id="addItem">＋ 項目を<br>追加</button></th></tr>';
+     gr.map(g => g.sp ? sepTh : `<th colspan="${g.n}" class="grp ${tint[g.idx]||''}"${gStyle(g.v)}>${esc(g.v)}</th>`).join('') + '<th class="add" rowspan="4"><button id="addItem">＋ 項目を<br>追加</button></th></tr>';
   h += `<tr><th class="fx c0 lab">No</th><th class="fx c1 lab">スタッフ名</th><th class="fx c2 lab">CX<br>ポイント</th><th class="fx c3 lab">KOS<br>ポイント</th>` +
      its.map((it, idx) => it.sp ? `<th class="sep"><button class="sepdel" data-sepdel="${idx}" aria-label="区切り線を削除"></button></th>` : `<th class="nm ${tint[idx]}"><button data-edit="${idx}">${esc(it.name || '（名称未設定）')}${it.noxl ? '<small>Excel出力なし</small>' : ''}</button></th>`).join('') + '</tr>';
   h += `<tr><th class="fx c0"></th><th class="fx c1 lab" colspan="1">KOSポイント</th><th class="fx c2"></th><th class="fx c3"></th>` +
@@ -459,6 +495,7 @@ function paintTotals(){
   k.res.forEach((x, r) => { $('#cx'+r).textContent = x.cx ? fmt(x.cx) : ''; $('#kos'+r).textContent = x.kos ? fmt(x.kos) : ''; });
   for (const td of document.querySelectorAll('[data-tot]')) td.textContent = k.col[td.dataset.tot] || '';
   $('#tcx').textContent = fmt(k.cx); $('#tkos').textContent = fmt(k.kos);
+  if (view === 'today') renderToday();
   $('#sCnt').textContent = k.n; $('#sCx').textContent = fmt(k.cx); $('#sKos').textContent = fmt(k.kos);
 }
 function bump(r, id, d, rec = true){
@@ -606,7 +643,7 @@ function Sheet(){
   return {
     put(r, c, v, s = 0, f){ (cells[r] = cells[r] || {})[c] = { v, s, f }; },
     merge(a){ merges.push(a); },
-    xml(cols, heights, extra = '', tail = ''){
+    xml(cols, heights, extra = '', tail = '', paper = 9){
       const rs = Object.keys(cells).map(Number).sort((a, b) => a - b);
       let maxC = 0;
       const data = rs.map(r => {
@@ -624,11 +661,12 @@ function Sheet(){
         `<sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><dimension ref="A1:${colL(maxC)}${rs[rs.length - 1] || 1}"/>${extra}<sheetFormatPr defaultRowHeight="18.75"/>` +
         `<cols>${cols.map(([a, b, w]) => `<col min="${a + 1}" max="${b + 1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>${data}</sheetData>` +
         (merges.length ? `<mergeCells count="${merges.length}">${merges.map(m => `<mergeCell ref="${m}"/>`).join('')}</mergeCells>` : '') +
-        `<pageMargins left="0.25" right="0.25" top="0.5" bottom="0.5" header="0.3" footer="0.3"/><pageSetup paperSize="8" orientation="landscape" fitToWidth="1" fitToHeight="1"/>${tail}</worksheet>`;
+        `<pageMargins left="0.25" right="0.25" top="0.5" bottom="0.5" header="0.3" footer="0.3"/><pageSetup paperSize="${paper}" orientation="landscape" fitToWidth="1" fitToHeight="1"/>${tail}</worksheet>`;
     }
   };
 }
 function buildXlsx(){ const d = daySheets(); return book(['件数表', 'スタッフマスタ', '店舗マスタ'], [d.s1, d.s2, d.s3]); }
+function gx(g){ const i = GKEYS.indexOf(String(g || '').trim()); return i < 0 ? 4 : 20 + i; }
 function daySheets(){
   const S = { def: 0, box: 1, pt: 2, vert: 3, grp: 4, note: 5, title: 6, big: 7, name: 8, sum: 9, lab: 10, sep: 11, cnt: 12, date: 13 };
   const its = cfg.items.filter(i => !i.noxl).filter((i, n, a) => !(i.sp && a[n - 1] && a[n - 1].sp && a[n - 2] && a[n - 2].sp)), F = 3, last = F + its.length - 1, L = colL(last), k = calc();
@@ -643,8 +681,8 @@ function daySheets(){
   sh.put(6, 0, 'KOSポイント', S.lab); sh.put(6, 1, '', S.lab); sh.put(6, 2, '', S.lab); sh.merge('A6:C6');
   sh.put(7, 0, 'CXポイント', S.lab); sh.put(7, 1, '', S.lab); sh.put(7, 2, '', S.lab); sh.merge('A7:C7');
   // groups & notes (merged runs)
-  for (const [key, row, st] of [['group', 4, S.grp], ['note', 2, S.note]]) {
-    runs(key, its).forEach(g => { if (g.sp || !g.v) return; const a = F + g.idx, b = a + g.n - 1; sh.put(row, a, g.v, st); for (let c = a + 1; c <= b; c++) sh.put(row, c, '', st); if (b > a) sh.merge(colL(a) + row + ':' + colL(b) + row); });
+  for (const [key, row, st0] of [['group', 4, S.grp], ['note', 2, S.note]]) {
+    runs(key, its).forEach(g => { if (g.sp || !g.v) return; const st = key === 'group' ? gx(g.v) : st0; const a = F + g.idx, b = a + g.n - 1; sh.put(row, a, g.v, st); for (let c = a + 1; c <= b; c++) sh.put(row, c, '', st); if (b > a) sh.merge(colL(a) + row + ':' + colL(b) + row); });
   }
   its.forEach((it, i) => { const c = F + i; if (it.sp) return; sh.put(5, c, it.name, S.vert); sh.put(6, c, num(it.kos) || '', S.pt); sh.put(7, c, num(it.cx) || '', S.pt); });
   for (let r = 0; r < ROWS; r++) {
@@ -660,7 +698,7 @@ function daySheets(){
   its.forEach((it, i) => cols.push([F + i, F + i, it.sp ? 1.2 : 6.8]));
   const hts = { 1: 33.75, 2: 33.75, 3: 6, 4: 28.5, 5: 254.25, 6: 31.5, 7: 31.5 }; for (let r = 8; r <= 24; r++) hts[r] = 35.5;
   const view = `<sheetViews><sheetView workbookViewId="0" zoomScale="70" zoomScaleNormal="70"><pane xSplit="3" ySplit="7" topLeftCell="D8" activePane="bottomRight" state="frozen"/></sheetView></sheetViews>`;
-  const s1 = sh.xml(cols, hts, view);
+  const s1 = sh.xml(cols, hts, view, '', 8);
   // staff master
   const s2s = Sheet(); s2s.put(2, 1, '店舗名', S.lab); s2s.put(2, 2, 'スタッフ名', S.lab); s2s.put(2, 3, '社員番号', S.lab);
   cfg.staff.forEach((s, i) => { s2s.put(i + 3, 0, i + 1, S.box); s2s.put(i + 3, 1, s.store, S.box); s2s.put(i + 3, 2, s.name, S.box); s2s.put(i + 3, 3, s.no === '' ? '' : (isFinite(+s.no) ? +s.no : s.no), S.box); });
@@ -668,7 +706,39 @@ function daySheets(){
   const s3s = Sheet(); s3s.put(3, 2, '店舗名', S.lab);
   cfg.stores.forEach((s, i) => { s3s.put(i + 4, 1, i + 1, S.box); s3s.put(i + 4, 2, s.name, S.box); });
   const s3 = s3s.xml([[1, 1, 5], [2, 2, 22]], {});
-  return { s1, s2, s3 };
+  return { s1, s2, s3, s4: paperSheet() };
+}
+function paperSheet(){
+  const [y, m, d] = date.split('-').map(Number);
+  return paperSheetGen({ topLabel: '店舗名：', topText: storeName(), m, d, nameLabel: 'スタッフ名', ptLabel: 'スタッフ別\nポイント', list: rows.map(r => ({ name: r.staff, c: r.c })), minRows: ROWS });
+}
+function paperSheetGen(o){
+  const S = { box: 1, pt: 2, vert: 3, note: 5, title: 6, big: 7, name: 8, sum: 9, lab: 10, sep: 11, cnt: 12, yv: 19 };
+  const its = cfg.items, F = 5, last = F + its.length - 1, L = colL(last), k = calcRows(o.list), sh = Sheet(), N = Math.max(o.list.length, o.minRows), LR = 7 + N, TR = LR + 1;
+  for (let r = 4; r <= TR; r++) for (let c = 0; c <= last; c++) sh.put(r, c, '', its[c - F] && its[c - F].sp ? S.sep : (r >= 8 && c >= F ? S.cnt : S.box));
+  sh.put(1, 1, o.topLabel, S.title); sh.merge('B1:C1'); sh.put(1, 4, o.topText, S.title); sh.merge('E1:N1');
+  sh.put(2, 1, o.m, S.big); sh.put(2, 2, '月', S.big); if (o.d) { sh.put(2, 3, o.d, S.big); sh.merge('D2:G2'); sh.put(2, 7, '日', S.big); }
+  sh.put(4, 1, '', S.box); sh.merge('B4:C4'); sh.put(4, 3, 'CX', S.lab); sh.put(4, 4, 'KOS', S.lab);
+  sh.put(5, 1, o.nameLabel, S.vert); sh.put(5, 2, '', S.vert); sh.merge('B5:C5'); sh.put(5, 3, o.ptLabel, S.lab); sh.put(5, 4, '', S.lab); sh.merge('D5:E5');
+  sh.put(6, 2, 'KOSポイント合計', S.note); sh.put(6, 3, '', S.note); sh.put(6, 4, '', S.note); sh.merge('C6:E6');
+  sh.put(7, 2, 'CXポイント合計', S.note); sh.put(7, 3, '', S.note); sh.merge('C7:D7');
+  for (const [key, row] of [['group', 4], ['note', 2]]) {
+    runs(key, its).forEach(g => { if (g.sp || !g.v) return; const st = key === 'group' ? gx(g.v) : S.note; const a = F + g.idx, b = a + g.n - 1; sh.put(row, a, g.v, st); for (let c = a + 1; c <= b; c++) sh.put(row, c, '', st); if (b > a) sh.merge(colL(a) + row + ':' + colL(b) + row); });
+  }
+  its.forEach((it, i) => { const c = F + i; if (it.sp) return; sh.put(5, c, it.name, isY(it.name) ? S.yv : S.vert); sh.put(6, c, num(it.kos) || '', S.pt); sh.put(7, c, num(it.cx) || '', S.pt); });
+  for (let r = 0; r < N; r++) {
+    const R = r + 8, row = o.list[r] || { name: '', c: {} }; sh.put(R, 0, r + 1, S.box); sh.put(R, 1, row.name, S.name); sh.put(R, 2, '', S.name); sh.merge(`B${R}:C${R}`);
+    sh.put(R, 3, (k.res[r] || {}).cx || 0, S.sum, `SUMPRODUCT($F$7:$${L}$7,F${R}:${L}${R})`);
+    sh.put(R, 4, (k.res[r] || {}).kos || 0, S.sum, `SUMPRODUCT($F$6:$${L}$6,F${R}:${L}${R})`);
+    its.forEach((it, i) => { const v = (row.c || {})[it.id]; if (!it.sp && v) sh.put(R, F + i, v, S.cnt); });
+  }
+  sh.put(TR, 0, '件数合計', S.note); sh.put(TR, 1, '', S.note); sh.put(TR, 2, '', S.note); sh.merge(`A${TR}:C${TR}`);
+  sh.put(TR, 3, k.cx, S.sum, `SUM(D8:D${LR})`); sh.put(TR, 4, k.kos, S.sum, `SUM(E8:E${LR})`);
+  its.forEach((it, i) => { if (!it.sp) { const c = colL(F + i); sh.put(TR, F + i, k.col[it.id] || 0, S.sum, `SUM(${c}8:${c}${LR})`); } });
+  const cols = [[0, 0, 4.2], [1, 1, 9.1], [2, 2, 15.8], [3, 4, 10.6]];
+  its.forEach((it, i) => cols.push([F + i, F + i, it.sp ? 1.2 : 6.8]));
+  const hts = { 1: 33.75, 2: 33.75, 3: 6, 4: 28.5, 5: 254.25, 6: 31.5, 7: 31.5 }; for (let r = 8; r <= TR; r++) hts[r] = 35.5;
+  return sh.xml(cols, hts, `<sheetViews><sheetView workbookViewId="0" zoomScale="70" zoomScaleNormal="70"><pane xSplit="5" ySplit="7" topLeftCell="F8" activePane="bottomRight" state="frozen"/></sheetView></sheetViews>`);
 }
 function stylesXml(){
   const fnt = (sz, b) => `<font>${b ? '<b/>' : ''}<sz val="${sz}"/><name val="游ゴシック"/><family val="3"/><charset val="128"/></font>`;
@@ -677,15 +747,16 @@ function stylesXml(){
   const xf = (font, fill, border, al) => `<xf numFmtId="0" fontId="${font}" fillId="${fill}" borderId="${border}" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment ${al}/></xf>`;
   const C = 'horizontal="center" vertical="center" wrapText="1"';
   const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">` +
-    `<numFmts count="2"><numFmt numFmtId="164" formatCode="yyyy/m/d"/><numFmt numFmtId="165" formatCode="0.0"/></numFmts><fonts count="8">${fnt(11)}${fnt(14, 1)}${fnt(18, 1)}${fnt(20, 1)}${fnt(10, 1)}${fnt(12)}${fnt(12, 1)}${fnt(11, 1)}</fonts>` +
-    `<fills count="5"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>${fill('FFFFFF00')}${fill('FFF2F2F2')}${fill('FFBFBFBF')}</fills>` +
+    `<numFmts count="2"><numFmt numFmtId="164" formatCode="yyyy/m/d"/><numFmt numFmtId="165" formatCode="0.0"/></numFmts><fonts count="9">${fnt(11)}${fnt(14, 1)}${fnt(18, 1)}${fnt(20, 1)}${fnt(10, 1)}${fnt(12)}${fnt(12, 1)}${fnt(11, 1)}${fnt(14, 1).replace('<name', '<color rgb="FFFFFFFF"/><name')}</fonts>` +
+    `<fills count="${5 + GHEX.length}"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>${fill('FFFFFF00')}${fill('FFF2F2F2')}${fill('FFBFBFBF')}${GHEX.map(h => fill('FF' + h)).join('')}</fills>` +
     `<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>${thin}</borders>` +
-    `<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="19">` +
+    `<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="${20 + GHEX.length}">` +
     xf(0, 0, 0, 'vertical="center"') + xf(0, 0, 1, C) + xf(1, 0, 1, C) + xf(7, 3, 1, C + ' textRotation="255"') + xf(1, 3, 1, C) + xf(4, 2, 1, C) +
     xf(2, 0, 0, 'vertical="center"') + xf(3, 0, 0, 'horizontal="center" vertical="center"') + xf(5, 0, 1, 'horizontal="left" vertical="center" indent="1"') +
     xf(6, 0, 1, C) + xf(7, 3, 1, C) + xf(0, 4, 0, C) + xf(1, 0, 1, C) + xf(0, 0, 1, C).replace('numFmtId="0"', 'numFmtId="164" applyNumberFormat="1"') +
     xf(0, 0, 1, C).replace('numFmtId="0"', 'numFmtId="9" applyNumberFormat="1"') + xf(0, 0, 1, C).replace('numFmtId="0"', 'numFmtId="165" applyNumberFormat="1"') +
     xf(0, 0, 1, 'horizontal="left" vertical="top" wrapText="1"') + xf(7, 3, 1, 'horizontal="left" vertical="center" indent="1"') + xf(6, 0, 1, C).replace('numFmtId="0"', 'numFmtId="165" applyNumberFormat="1"') +
+    xf(7, 2, 1, C + ' textRotation="255"') + GHEX.map((h, i) => xf(h === 'FF0000' ? 8 : 1, 5 + i, 1, C)).join('') +
     `</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
   return styles;
 }
@@ -713,10 +784,10 @@ async function saveFile(again){
   if (again && lastFile) ({ data, name } = lastFile);
   else {
     exporting = true; toast('Excelを作成しています…');
-    try { data = await buildFull(); }
+    try { data = (view === 'aday' || view === 'amon') ? await buildAll() : await buildFull(); }
     catch(e) { exporting = false; toast('Excelを作成できませんでした'); return 'none'; }
     exporting = false;
-    name = view === 'day' ? fileName() : `個人別月間_${storeName()}_${month.replace('-', '')}.xlsx`.replace(/[\\/:*?"<>|]/g, '_');
+    name = view === 'aday' ? `当日全店_${date.replace(/-/g, '')}.xlsx` : view === 'amon' ? `当月全店_${month.replace('-', '')}.xlsx` : isDayV() ? fileName() : `個人別月間_${storeName()}_${month.replace('-', '')}.xlsx`.replace(/[\\/:*?"<>|]/g, '_');
     lastFile = { data, name };
   }
   return deliver(data.slice(0), name);
@@ -734,11 +805,17 @@ async function deliver(data, name){
   catch(e) { if (e && e.code === 'declined') return 'cancel'; toast('保存できませんでした（' + (e && e.code || 'error') + '）'); return 'none'; }
 }
 function subject(){
-  if (view !== 'day') { const [y, m] = month.split('-').map(Number); return `【個人別月間ポイント】${storeName()} ${y}年${m}月`; }
+  if (view === 'aday') { const [y, m, d] = date.split('-').map(Number); return `【当日全店】${y}/${m}/${d}`; }
+  if (view === 'amon') { const [y, m] = month.split('-').map(Number); return `【当月全店】${y}年${m}月`; }
+  if (!isDayV()) { const [y, m] = month.split('-').map(Number); return `【個人別月間ポイント】${storeName()} ${y}年${m}月`; }
   const [y, m, d] = date.split('-').map(Number); return `【件数表】${storeName()} ${y}/${m}/${d}`;
 }
 function body(){
-  if (view !== 'day' && mdata && mdata.y + '-' + String(mdata.m).padStart(2, '0') === month) {
+  if ((view === 'aday' || view === 'amon') && allData) {
+    const k = calcRows(allData.list);
+    return `${subject()} を添付します。\n\n${allData.list.map((r, i) => `${r.name}：件数 ${k.res[i].n} / CX ${fmt(k.res[i].cx)} / KOS ${fmt(k.res[i].kos)}`).join('\n')}\n\n全店合計：件数 ${k.n} / CX ${fmt(k.cx)} / KOS ${fmt(k.kos)}\n`;
+  }
+  if (!isDayV() && mdata && mdata.y + '-' + String(mdata.m).padStart(2, '0') === month) {
     const k = monthCalc();
     const lines = k.names.map(n => `${n}：CX ${fmt(k.sum(k.per[n].cx))} / KOS ${fmt(k.sum(k.per[n].kos))}`);
     return `${subject()} を添付します。\n\n${lines.join('\n')}\n\n店舗合計：CX ${fmt(k.cx)} / KOS ${fmt(k.kos)}\n`;
@@ -767,22 +844,26 @@ const zen = n => String(n).replace(/[0-9]/g, c => String.fromCharCode(c.charCode
 const WD = ['日', '月', '火', '水', '木', '金', '土'];
 function rowPts(c){ let cx = 0, kos = 0; for (const it of items()) { const v = (c && c[it.id]) || 0; cx += v * num(it.cx); kos += v * num(it.kos); } return { cx, kos }; }
 async function pool(arr, n, fn){ let i = 0; await Promise.all(Array.from({ length: n }, async () => { while (i < arr.length) { const k = i++; await fn(arr[k], k); } })); }
-async function fetchDay(ds){
-  if (ds === date) return rows.map(r => ({ staff: r.staff, c: r.c }));
-  const id = dayIdFor(storeId, ds);
+async function fetchDay(ds){ return fetchDayFor(storeId, ds); }
+async function fetchDayFor(sid, ds){
+  if (String(sid) === String(storeId) && ds === date) return rows.map(r => ({ staff: r.staff, c: r.c }));
+  const id = dayIdFor(sid, ds);
   if (db) { const snap = await db.collection('days/' + id + '/rows').get(); return snap.docs.map(d => d.data() || {}); }
   const v = ls.get('day:' + id); return Array.isArray(v) ? v : [];
 }
 const mcache = {};
-async function getMonth(ym, fresh){
-  const key = storeId + '|' + ym;
+async function getMonth(ym, fresh){ return getMonthFor(storeId, ym, fresh); }
+async function getMonthFor(sid, ym, fresh, onDay){
+  const key = sid + '|' + ym;
   if (!fresh && mcache[key]) return mcache[key];
   const [y, m] = ym.split('-').map(Number), nd = new Date(y, m, 0).getDate();
   const days = new Array(nd).fill(null); let fail = 0;
   await pool(Array.from({ length: nd }, (_, i) => `${ym}-${String(i + 1).padStart(2, '0')}`), 6, async (ds, i) => {
-    try { days[i] = await fetchDay(ds); } catch(e) { days[i] = []; fail++; }
+    try { days[i] = await fetchDayFor(sid, ds); }
+    catch(e) { await new Promise(r => setTimeout(r, 400 + Math.random() * 600)); try { days[i] = await fetchDayFor(sid, ds); } catch(e2) { days[i] = []; fail++; } }
+    if (onDay) onDay();
   });
-  return mcache[key] = { y, m, nd, days, fail };
+  return mcache[key] = { y, m, nd, days, fail, at: Date.now() };
 }
 function monthLabel(){ const [y, m] = month.split('-').map(Number); $('#mlabel').textContent = `${y}年${m}月`; }
 async function loadMonth(){
@@ -792,7 +873,7 @@ async function loadMonth(){
   if (tok !== mtoken) return;
   mdata = r; renderMonth();
 }
-function refresh(){ if (view === 'month') loadMonth(); else if (view === 'an') loadAn(); }
+function refresh(){ if (view === 'month') loadMonth(); else if (view === 'an') loadAn(); else if (view === 'aday' || view === 'amon') loadAll(); }
 function monthCalc(md = mdata){
   const { nd, days } = md, per = {};
   const get = nm => per[nm] = per[nm] || { cx: new Array(nd).fill(0), kos: new Array(nd).fill(0) };
@@ -832,13 +913,15 @@ function renderMonth(){
   t.innerHTML = h;
 }
 function setView(v){
-  if (view === 'day' && v !== 'day') month = date.slice(0, 7);
+  const dv = x => x === 'day' || x === 'today' || x === 'aday';
+  if (dv(view) && !dv(v)) month = date.slice(0, 7);
   view = v;
   document.body.dataset.v = v;
   document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === v));
-  $('#wrap').hidden = v !== 'day'; $('#mwrap').hidden = v !== 'month'; $('#awrap').hidden = v !== 'an';
+  $('#wrap').hidden = v !== 'day'; $('#mwrap').hidden = v !== 'month'; $('#awrap').hidden = v !== 'an'; $('#twrap').hidden = v !== 'today'; $('#xwrap').hidden = v !== 'aday' && v !== 'amon';
   if (v === 'an' && !aMkSet) { aMkSet = true; setMk('kos'); }
-  if (v === 'day') { stickTop(); if (unsubMemo) { unsubMemo(); unsubMemo = null; memoKey = ''; } } else refresh();
+  if (v === 'aday') { loadAll(); }
+  else if (v === 'day' || v === 'today') { if (v === 'day') stickTop(); else renderToday(); if (unsubMemo) { unsubMemo(); unsubMemo = null; memoKey = ''; } } else refresh();
 }
 function shiftMonth(n){ const [y, m] = month.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); month = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); refresh(); }
 document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => setView(b.dataset.view));
@@ -1097,14 +1180,14 @@ function sheetName(n, used){
   used.add(x); return x;
 }
 async function buildFull(){
-  const ym = view === 'day' ? date.slice(0, 7) : month;
-  const cur = (view !== 'day' && mdata && mdata.y + '-' + String(mdata.m).padStart(2, '0') === ym) ? mdata : await getMonth(ym, true);
+  const ym = isDayV() ? date.slice(0, 7) : month;
+  const cur = (!isDayV() && mdata && mdata.y + '-' + String(mdata.m).padStart(2, '0') === ym) ? mdata : await getMonth(ym, true);
   const pv = await getMonth(prevYm(ym), false);
   const notes = await loadNotes(ym);
   const per = catCalc(cur.days), pper = catCalc(pv.days);
   const sheets = [], files = [], types = [];
   let dsh = null;
-  if (view === 'day') { dsh = daySheets(); sheets.push({ name: '件数表', xml: dsh.s1 }); }
+  if (isDayV()) { dsh = daySheets(); sheets.push({ name: '件数表', xml: dsh.s1 }, { name: '当日実績', xml: dsh.s4 }); }
   sheets.push(...monthSheets(cur));
   const staffNames = monthCalc(cur).names, used = new Set(sheets.map(x => x.name).concat(['スタッフマスタ', '店舗マスタ']));
   const M = { box: 1, sum: 9, lab: 10, title: 6, pct: 14, dec: 15, memo: 16, sec: 17, decB: 18 };
@@ -1160,6 +1243,119 @@ async function buildFull(){
   return book2(sheets, files, types);
 }
 window.__buildFull = () => buildFull();
+async function buildAll(){
+  if (!allData || allData.kind !== view) await loadAll();
+  const [y, m, d] = (allData.kind === 'aday' ? allData.ds : allData.ym + '-01').split('-').map(Number);
+  const xml = paperSheetGen({ topLabel: '全店', topText: allData.kind === 'aday' ? `${y}年${m}月${d}日　当日全店` : `${y}年${m}月　当月全店`, m, d: allData.kind === 'aday' ? d : 0, nameLabel: '店舗名', ptLabel: '店舗別\nポイント', list: allData.list, minRows: cfg.stores.length });
+  return book2([{ name: allData.kind === 'aday' ? '当日全店' : '当月全店', xml }, { name: '店舗マスタ', xml: daySheets().s3 }], [], []);
+}
+window.__buildAll = () => buildAll();
+
+/* ---------- 当日実績（紙の件数表の形で表示） ---------- */
+function vtSize(n){ const L = String(n || '').replace(/\n/g, '').length; return L <= 15 ? 10.5 : Math.max(7.6, Math.floor(164 / L * 10) / 10); }
+function isDayV(){ return view === 'day' || view === 'today'; }
+const GFILL = Object.fromEntries(GKEYS.map((k, i) => ['' + k, '#' + GHEX[i]]));
+const YITEM = ['アゲキュン', 'アマゾン新プラン同時', 'PI紹介訴求', 'スマホ教室ポイ活講座'];
+const isY = n => YITEM.includes(String(n || '').replace(/[\s\u3000]/g, ''));
+function calcRows(list){
+  const its = items();
+  const res = list.map(r => { let cx = 0, kos = 0, n = 0; for (const it of its) { const v = (r.c || {})[it.id] || 0; n += v; cx += v * num(it.cx); kos += v * num(it.kos); } return { cx, kos, n }; });
+  const col = {}; for (const it of its) col[it.id] = list.reduce((a, r) => a + ((r.c || {})[it.id] || 0), 0);
+  return { res, col, cx: res.reduce((a, b) => a + b.cx, 0), kos: res.reduce((a, b) => a + b.kos, 0), n: res.reduce((a, b) => a + b.n, 0) };
+}
+function paperHtml(title, info, nameLabel, list, minRows){
+  const its = cfg.items, k = calcRows(list);
+  const gr = runs('group'), nr = runs('note'), hasNote = its.some(i => !i.sp && i.note);
+  const gs = g => { const f = GFILL[g]; return f ? ` style="background:${f};color:${f === '#FF0000' ? '#fff' : '#000'}"` : ''; };
+  const pv = v => num(v) ? esc(fmt(num(v))) : '';
+  let h = `<div class="tcap"><h2>${esc(title)}</h2>${info}<span>件数合計<b>${k.n}</b></span><span>CX合計<b>${esc(fmt(k.cx))}</b></span><span>KOS合計<b>${esc(fmt(k.kos))}</b></span></div>`;
+  h += `<table class="ttbl"><colgroup><col style="width:24px"><col style="width:${nameLabel === '店舗名' ? 110 : 70}px"><col style="width:44px"><col style="width:44px">` + its.map(it => it.sp ? '<col style="width:5px">' : '<col>').join('') + '</colgroup><thead>';
+  if (hasNote) h += '<tr><th colspan="4" style="border:0;background:transparent"></th>' + nr.map(r => r.sp ? '<th class="tsep"></th>' : `<th colspan="${r.n}" class="nt${r.v ? ' ylw' : ''}"${r.v ? '' : ' style="border:0;background:transparent"'}>${esc(r.v)}</th>`).join('') + '</tr>';
+  h += '<tr><th colspan="4" class="grp"></th>' + gr.map(g => g.sp ? '<th class="tsep"></th>' : `<th colspan="${g.n}" class="grp"${gs(g.v)}>${esc(g.v)}</th>`).join('') + '</tr>';
+  h += `<tr><th><div class="vt lb">No</div></th><th><div class="vt lb">${esc(nameLabel)}</div></th><th><div class="vt lb">CXポイント</div></th><th><div class="vt lb">KOSポイント</div></th>` +
+    its.map(it => it.sp ? '<th class="tsep"></th>' : `<th${isY(it.name) ? ' class="ylw"' : ''} title="${esc(it.name)}"><div class="vt" style="font-size:${vtSize(it.name)}px">${esc((it.name || '').replace(/\n/g, ''))}</div></th>`).join('') + '</tr>';
+  h += '<tr><th colspan="4" class="ylw ptv">KOSポイント合計</th>' + its.map(it => it.sp ? '<th class="tsep"></th>' : `<th class="ptv">${pv(it.kos)}</th>`).join('') + '</tr>';
+  h += '<tr><th colspan="4" class="ylw ptv">CXポイント合計</th>' + its.map(it => it.sp ? '<th class="tsep"></th>' : `<th class="ptv">${pv(it.cx)}</th>`).join('') + '</tr></thead><tbody>';
+  const n = Math.max(list.length, minRows || 0);
+  for (let r = 0; r < n; r++) {
+    const row = list[r] || { name: '', c: {} }, x = k.res[r] || { cx: 0, kos: 0 };
+    h += `<tr><td>${r + 1}</td><td class="nm">${esc(row.name)}</td><td class="tp">${x.cx ? esc(fmt(x.cx)) : ''}</td><td class="tp">${x.kos ? esc(fmt(x.kos)) : ''}</td>` +
+      its.map(it => { if (it.sp) return '<td class="tsep"></td>'; const v = (row.c || {})[it.id] || 0; return `<td class="n${v ? ' on' : ''}">${v || ''}</td>`; }).join('') + '</tr>';
+  }
+  h += `</tbody><tfoot><tr><td colspan="2" class="ylw">件数合計</td><td>${esc(fmt(k.cx))}</td><td>${esc(fmt(k.kos))}</td>` +
+    its.map(it => it.sp ? '<td class="tsep"></td>' : `<td>${k.col[it.id] || ''}</td>`).join('') + '</tr></tfoot></table>';
+  return h;
+}
+function stickPaper(w){
+  const t = w && w.querySelector('.ttbl'); if (!t) return;
+  const cols = [...t.querySelectorAll('colgroup col')].slice(0, 4).map(c => parseFloat(c.style.width) || 0);
+  const lefts = [0, cols[0], cols[0] + cols[1], cols[0] + cols[1] + cols[2]];
+  let top = 0;
+  const headRows = [...t.tHead.rows], tops = headRows.map(r => { const v = top; top += r.getBoundingClientRect().height; return v; });
+  for (const sec of [t.tHead, ...t.tBodies, t.tFoot]) {
+    if (!sec) continue;
+    [...sec.rows].forEach((tr, ri) => {
+      let col = 0;
+      for (const cell of tr.cells) {
+        const start = col; col += cell.colSpan || 1;
+        const isHead = sec === t.tHead, isLeft = start < 4;
+        if (!isHead && !isLeft) break;
+        cell.style.position = 'sticky';
+        if (isHead) cell.style.top = tops[ri] + 'px';
+        if (isLeft) { cell.style.left = lefts[start] + 'px'; if (col === 4) cell.classList.add('fz4'); }
+        cell.style.zIndex = isHead && isLeft ? 4 : isHead ? 3 : 2;
+        if (cell.style.background === 'transparent' || cell.style.backgroundColor === 'transparent') cell.style.background = 'var(--paper)';
+      }
+    });
+  }
+}
+addEventListener('resize', () => { stickPaper($('#twrap')); stickPaper($('#xwrap')); });
+function renderToday(){
+  const w = $('#twrap'); if (!w || view !== 'today') return;
+  const [y, m, d] = date.split('-').map(Number);
+  w.innerHTML = paperHtml(`${y}年${m}月${d}日（${WD[new Date(y, m - 1, d).getDay()]}）　当日実績`, `<span>店舗名：<b>${esc(storeName())}</b></span>`, 'スタッフ名', rows.map(r => ({ name: r.staff, c: r.c })), ROWS);
+  stickPaper(w);
+}
+/* 当日全店・当月全店 */
+let allData = null, allTok = 0;
+const addC = (to, c) => { for (const id in (c || {})) { const v = +c[id] || 0; if (v) to[id] = (to[id] || 0) + v; } };
+async function loadAll(){
+  const tok = ++allTok, kind = view, ym = month, ds = date;
+  if (kind === 'amon') monthLabel();
+  allData = null; renderAll('');
+  const out = cfg.stores.map(s => ({ name: s.name, c: {} }));
+  let fail = 0;
+  if (kind === 'aday') {
+    await pool(cfg.stores.map((s, i) => [s, i]), 4, async ([s, i]) => {
+      try { (await fetchDayFor(s.id, ds)).forEach(r => addC(out[i].c, r.c)); } catch(e) { fail++; }
+    });
+  } else {
+    const [y, m] = ym.split('-').map(Number), total = cfg.stores.length * new Date(y, m, 0).getDate(); let done = 0;
+    for (let i = 0; i < cfg.stores.length; i++) {
+      const s = cfg.stores[i], key = s.id + '|' + ym, c = mcache[key];
+      const md = await getMonthFor(s.id, ym, !(c && Date.now() - c.at < 60000), () => { done++; if (tok === allTok) renderAll(`読み込み中…（${Math.min(done, total)} / ${total}日分）`); });
+      if (tok !== allTok) return;
+      md.days.forEach(list => (list || []).forEach(r => addC(out[i].c, r.c)));
+      fail += md.fail;
+    }
+  }
+  if (tok !== allTok) return;
+  allData = { kind, ym, ds, list: out, fail };
+  renderAll();
+}
+function renderAll(msg){
+  const w = $('#xwrap'); if (!w || (view !== 'aday' && view !== 'amon')) return;
+  if (!allData) { w.innerHTML = `<p class="empty" style="padding:24px 8px">${esc(msg || '読み込み中…')}</p>`; return; }
+  const note = allData.fail ? `<span style="color:var(--pen)">${allData.fail}件のデータを読み込めませんでした</span>` : '';
+  if (allData.kind === 'aday') {
+    const [y, m, d] = allData.ds.split('-').map(Number);
+    w.innerHTML = paperHtml(`${y}年${m}月${d}日（${WD[new Date(y, m - 1, d).getDay()]}）　当日全店`, `<span>店舗数<b>${cfg.stores.length}</b></span>` + note, '店舗名', allData.list, cfg.stores.length);
+  } else {
+    const [y, m] = allData.ym.split('-').map(Number);
+    w.innerHTML = paperHtml(`${y}年${m}月　当月全店`, `<span>店舗数<b>${cfg.stores.length}</b></span>` + note, '店舗名', allData.list, cfg.stores.length).replace('<table class="ttbl">', '<table class="ttbl sm">');
+  }
+  stickPaper(w);
+}
 
 /* ---------- start ---------- */
 $('#date').value = date;
